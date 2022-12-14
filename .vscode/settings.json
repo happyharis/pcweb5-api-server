@@ -1,0 +1,30 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "pcweb",
+            "database": "movie_reviews",
+            "username": "root",
+            "password": "password"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "remotemysql.com",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "pcweb5",
+            "database": "f1AVcIJXIC",
+            "username": "f1AVcIJXIC",
+            "password": "Cj6y9JFw0I"
+        }
+    ]
+}

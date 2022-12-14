@@ -15,6 +15,11 @@ const port = 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+async function getPosts() {
+  const [rows] = await pool.query("SELECT * FROM posts;");
+  return rows;
+}
+
 async function getPost(id) {
   const [rows] = await pool.query(
     `select *
@@ -43,6 +48,11 @@ async function deleteNote(id) {
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
+});
+
+app.get("/", async (req, res) => {
+  const posts = await getPosts();
+  res.send(posts).status(202);
 });
 
 app.get("/post/:id", async (req, res) => {

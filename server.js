@@ -23,7 +23,7 @@ async function getPost(id) {
         `,
     [id]
   );
-  return rows;
+  return rows[0];
 }
 
 async function addPost(caption, image) {
@@ -37,13 +37,29 @@ async function addPost(caption, image) {
   return getPost(id);
 }
 
+async function deleteNote(id) {
+  await pool.query(`DELETE FROM posts where id = ?`, [id]);
+}
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
+});
+
+app.get("/post/:id", async (req, res) => {
+  const id = req.params.id;
+  const post = await getPost(id);
+  res.send(post).status(202);
 });
 
 app.post("/add", async (req, res) => {
   const { caption, image } = req.body;
   const post = await addPost(caption, image);
   console.log("Post added: ", post);
+  res.send({ status: "success" }).status(202);
+});
+
+app.delete("/delete/:id", async (req, res) => {
+  const id = req.params.id;
+  await deleteNote(id);
   res.send({ status: "success" }).status(202);
 });

@@ -41,6 +41,17 @@ async function addPost(caption, image) {
   const id = result.insertId;
   return getPost(id);
 }
+async function updatePost(id, caption, image) {
+  await pool.query(
+    `
+    UPDATE  posts 
+    set caption = ?, image = ? 
+    where id = ?;
+    `,
+    [caption, image, id]
+  );
+  return getPost(id);
+}
 
 async function deleteNote(id) {
   await pool.query(`DELETE FROM posts where id = ?`, [id]);
@@ -59,6 +70,13 @@ app.get("/post/:id", async (req, res) => {
   const id = req.params.id;
   const post = await getPost(id);
   res.send(post).status(202);
+});
+
+app.put("/post/:id", async (req, res) => {
+  const id = req.params.id;
+  const { caption, image } = req.body;
+  const updatedPost = await updatePost(id, caption, image);
+  res.send(updatedPost).status(202);
 });
 
 app.post("/add", async (req, res) => {
